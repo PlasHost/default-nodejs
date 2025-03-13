@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.SERVER_PORT || 8001; // Use the Heroku-assigned port or fallback to 3000
 
 app.get("/", (req, res) => {
+    queries += 1;
     res.sendFile(__dirname + "/index.html");
 });
 
@@ -16,8 +17,6 @@ app.listen(PORT, () => {
 });
 
 function getReply() {
-    queries += 1;
-
     return `Queries: ${queries}`;
 }
 
