@@ -16,6 +16,8 @@ app.listen(PORT, () => {
 });
 
 function getReply() {
+    queries += 1;
+
     return `Queries: ${queries}`;
 }
 
