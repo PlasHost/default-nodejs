@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        #status {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-size: 1.2rem;
+            color: #333;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        /* Status messages */
+        .online {
+            color: green;
+        }
+
+        .offline {
+            color: red;
+        }
+
+        .loading {
+            color: orange;
+        }
+
+        /* Responsive styling */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            #status {
+                min-width: 150px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Server Status</h1>
+    <div id="status" class="loading">Loading...</div>
+</div>
+
+<script>
+    async function updateStatus() {
+        try {
+            const response = await fetch("/status");
+            const data = await response.text();
+            const statusElement = document.getElementById("status");
+
+            statusElement.innerHTML = data;
+
+            // Update status color
+            if (data.toLowerCase().includes("error")) {
+                statusElement.className = "offline";
+            } else if (data.toLowerCase().includes("success")) {
+                statusElement.className = "online";
+            } else {
+                statusElement.className = "loading";
+            }
+        } catch (error) {
+            console.error("Error fetching status:", error);
+            document.getElementById("status").innerHTML = "Error fetching status";
+            document.getElementById("status").className = "offline";
+        }
+    }
+
+    setInterval(updateStatus, 200); // Fetch every 200ms
+    updateStatus(); // Initial fetch
+</script>
+</body>
+</html>
