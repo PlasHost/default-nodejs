@@ -33,8 +33,4 @@ function printEnvVars() {
 // Main function
 (async () => {
     printEnvVars();
-
-    await delay(); // Delay before starting the process
-
-    // await run();
 })();
